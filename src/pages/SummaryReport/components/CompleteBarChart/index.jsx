@@ -2,18 +2,18 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import './style.css';
 
-const CompleteBarChart = ({ barChartData }) => {
+const CompleteBarChart = ({ chartData }) => {
   const option = {
     tooltip: {},
     xAxis: {
-      data: barChartData.type,
+      data: chartData.type,
     },
     yAxis: {},
     series: [
       {
-        name: barChartData.name,
+        name: chartData.name,
         type: 'bar',
-        data: barChartData.data,
+        data: chartData.data,
       },
     ],
   };

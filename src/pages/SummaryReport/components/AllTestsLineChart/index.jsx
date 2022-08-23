@@ -2,32 +2,29 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import './style.css';
 
-const AllTestsLineChart = ({ barChartData }) => {
+const AllTestsLineChart = ({ chartData }) => {
   const option = {
-    tooltip: {},
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: chartData.legend,
+    },
     xAxis: {
-      data: barChartData.type,
+      data: ['8:00', '10:00', '12:00', '14:00', '16:00'],
     },
     yAxis: {},
-    series: [
+    series: chartData.series,
+    dataZoom: [
       {
-        name: barChartData.name,
-        type: 'line',
-        data: barChartData.data,
-        smooth: true,
+        type: 'slider',
+        xAxisIndex: 0,
+        filterMode: 'none',
       },
     ],
   };
 
-  return (
-    <div className='chart-wrapper'>
-      <ReactECharts
-        option={option}
-        className='pie-chart'
-        style={{ height: 300 }}
-      />
-    </div>
-  );
+  return <ReactECharts option={option} style={{ height: 400 }} />;
 };
 
 export default AllTestsLineChart;

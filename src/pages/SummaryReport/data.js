@@ -70,7 +70,7 @@ export const alarmTableData = [
   },
 ];
 
-export const completeBarChartData = [
+export const barChartData = [
   {
     name: 'hardware1',
     type: ['1A', '1B', '1C'],
@@ -85,5 +85,20 @@ export const completeBarChartData = [
     name: 'hardware3',
     type: ['3A', '3B', '3C'],
     data: [60, 10, 30],
+  },
+];
+
+export const lineChartData = [
+  {
+    name: 'report1',
+    hashRate: [52, 35, 63, 11, 34],
+    temp: [3, 23, 54, 75, 23],
+    fanSpeed: [35, 68, 66, 34, 47],
+  },
+  {
+    name: 'report2',
+    hashRate: [3, 23, 54, 75, 23],
+    temp: [35, 68, 66, 34, 47],
+    fanSpeed: [52, 35, 63, 11, 34],
   },
 ];

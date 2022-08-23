@@ -11,19 +11,19 @@ import './style.css';
 
 const SummaryReport = () => {
   const [dataFrequency, setDataFrequency] = useState('1');
-  const [completeBarChartData, setCompleteBarChartData] = useState([
-    data.completeBarChartData[0],
-  ]);
+  const [barChartData, setBarChartData] = useState([data.barChartData[0]]);
+  const [lineChartData, setLineChartData] = useState({
+    legend: [],
+    series: [],
+  });
 
-  const handleMenuClick = (e) => {
-    setCompleteBarChartData(
-      data.completeBarChartData.filter((item) => item.name === e.key)
-    );
+  const handleBarMenuClick = (e) => {
+    setBarChartData(data.barChartData.filter((item) => item.name === e.key));
   };
 
-  const menu = (
+  const barChartMenu = (
     <Menu
-      onClick={(e) => handleMenuClick(e)}
+      onClick={(e) => handleBarMenuClick(e)}
       items={[
         {
           label: 'hardware1',
@@ -36,6 +36,50 @@ const SummaryReport = () => {
         {
           label: 'hardware3',
           key: 'hardware3',
+        },
+      ]}
+    />
+  );
+
+  const handleLineMenuClick = (e) => {
+    setLineChartData((prev) => ({
+      ...prev,
+      series: data.lineChartData.map((item) => ({
+        name: item.name,
+        data: item[e.key],
+        type: 'line',
+        smooth: true,
+      })),
+    }));
+  };
+
+  useEffect(() => {
+    setLineChartData({
+      legend: data.lineChartData.map((item) => item.name),
+      series: data.lineChartData.map((item) => ({
+        name: item.name,
+        data: item['hashRate'],
+        type: 'line',
+        smooth: true,
+      })),
+    });
+  }, []);
+
+  const lineChartMenu = (
+    <Menu
+      onClick={(e) => handleLineMenuClick(e)}
+      items={[
+        {
+          label: 'hashRate',
+          key: 'hashRate',
+        },
+        {
+          label: 'temp',
+          key: 'temp',
+        },
+        {
+          label: 'fanSpeed',
+          key: 'fanSpeed',
         },
       ]}
     />
@@ -62,11 +106,13 @@ const SummaryReport = () => {
             tableData={data.alarmTableData}
           />
         </Col>
+
+        {/* ===== 硬件分布 ===== */}
         <Col span={8}>
           <div className='subtitle-wrapper'>
             <div className='subtitle'>Complete状态硬件分布</div>
             <Dropdown
-              overlay={menu}
+              overlay={barChartMenu}
               trigger={['click']}
               placement='bottomRight'
             >
@@ -76,9 +122,11 @@ const SummaryReport = () => {
               </Button>
             </Dropdown>
           </div>
-          <CompleteBarChart barChartData={completeBarChartData[0]} />
+          <CompleteBarChart chartData={barChartData[0]} />
         </Col>
       </Row>
+
+      {/* ===== 报告折线图 ===== */}
       <div className='middle'>
         <div className='subtitle'>全部测试报告折线图</div>
         <div className='subtitle-wrapper'>
@@ -90,15 +138,21 @@ const SummaryReport = () => {
             <Radio.Button value='1'>Default</Radio.Button>
             <Radio.Button value='5'>5minutes</Radio.Button>
           </Radio.Group>
-          <Dropdown overlay={menu} trigger={['click']} placement='bottomRight'>
+          <Dropdown
+            overlay={lineChartMenu}
+            trigger={['click']}
+            placement='bottomRight'
+          >
             <Button type='text'>
-              hardware1
+              hashRate
               <DownOutlined />
             </Button>
           </Dropdown>
         </div>
-        <AllTestsLineChart barChartData={completeBarChartData[0]} />
+        <AllTestsLineChart chartData={lineChartData} />
       </div>
+
+      {/* ===== 汇总表格 ===== */}
       <div className='bottom'>
         <div className='chart5'>汇总表格</div>
       </div>

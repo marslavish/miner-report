@@ -1,12 +1,2 @@
 .chart-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.pie-chart {
-  width: 40%;
-}
-
-.pie-chart-table {
-  width: 60%;
 }
